@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Matcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 300px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            margin-right: 20px;
+            border-right: 1px solid #ddd;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 10px;
+        }
+        h2, h3 {
+            margin-top: 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        ul li {
+            list-style-type: disc;
+            margin-bottom: 5px;
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Job Requirements</h2>
+        <h3>Skills:</h3>
+        <ul>
+            {% for skill in job_skills %}
+            <li><h2>{{ skill }}</h2><br><br></li>
+            <br><br>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Resume Matcher</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="job_description">Upload Job Description (PDF):</label><br>
+            <input type="file" id="job_description" name="job_description" accept="application/pdf"><br><br>
+            <label for="resumes">Upload Resumes (PDF, multiple):</label><br>
+            <input type="file" id="resumes" name="resumes" accept="application/pdf" multiple><br><br>
+            <input type="submit" value="Match Resumes">
+        </form>
+
+        {% if results %}
+        <h2>Results:</h2>
+        <table>
+            <tr>
+                <th>Resume</th>
+                <th>Status</th>
+            </tr>
+            {% for resume, status in results %}
+            <tr>
+                <td>{{ resume }}</td>
+                <td>{{ status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>
